@@ -24,7 +24,10 @@ def encrypt(string, shift):
     result = ""
     for char in string:
         if char.isalpha():
-            result += chr((ord(char.upper()) - ord('A') + shift) % 26 + ord('A'))
+            if char.isupper():
+                result += chr((ord(char) - ord('A') + shift) % 26 + ord('A'))
+            elif char.islower():
+                result += chr((ord(char) - ord('a') + shift) % 26 + ord('a'))
         else:
             result += char
     return result
@@ -36,7 +39,7 @@ def decrypt(string, shift):
 
 def crack(string):
     for shift in range(1, 26):
-        attempt = encrypt(string, shift)
+        attempt = decrypt(string, shift)
         word_list = attempt.split()
         count = 0
         for word in word_list:
